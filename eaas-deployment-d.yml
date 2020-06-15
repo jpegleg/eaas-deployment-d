@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: eaasapi
+  name: eaasapi-d
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: eaasapi
+      app: eaasapi-d
   template:
     metadata:
       labels:
-        app: eaasapi
+        app: eaasapi-d
     spec:
       containers:
-      - name: nginx
-        image: nginx
+      - name: eanginx
+        image: localhost:5001/eaasapi/eanginx
         ports:
         - name: https
           containerPort: 443
@@ -23,19 +23,17 @@ spec:
         volumeMounts:
         - mountPath: /var/log/nginx
           name: nginxmount
-        - mountPath: /var/www/html/USERACCOUNT
+        - mountPath: /var/www/html/ACCOUNT
           name: eapersist
         - mountPath: /var/tmp
           name: vartmp
+
       - name: eaasapi
         image: localhost:5001/eaasapi/eaasapi
-        ports:
-        - name: ssh
-          containerPort: 22
         volumeMounts:
         - mountPath: /var/log/nginx
           name: nginxmount
-        - mountPath: /var/www/html/USERACCOUNT
+        - mountPath: /var/www/html/ACCOUNT
           name: eapersist
         - mountPath: /var/tmp
           name: vartmp
@@ -47,7 +45,7 @@ spec:
       volumes:
        - name: eapersist
          hostPath:
-           path: /var/www/html/USERACCOUNT
+           path: /var/www/html/ACCOUNT
            type: Directory
        - name: vartmp
          hostPath:
@@ -65,4 +63,3 @@ spec:
          hostPath:
            path: /srv/persist/bin
            type: Directory    
-
