@@ -23,7 +23,7 @@ spec:
         volumeMounts:
         - mountPath: /var/log/nginx
           name: nginxmount
-        - mountPath: /var/www/html/USERACCOUNT/download
+        - mountPath: /var/www/html/USERACCOUNT
           name: eapersist
         - mountPath: /var/tmp
           name: vartmp
