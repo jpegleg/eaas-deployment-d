@@ -53,7 +53,7 @@ spec:
            type: Directory    
        - name: nginxmount
          hostPath:
-           path: /srv/persist/nginlog
+           path: /srv/persist/log
            type: Directory    
        - name: gpgmount
          hostPath:
