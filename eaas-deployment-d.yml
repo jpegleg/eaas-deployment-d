@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eaasapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eaasapi
+  template:
+    metadata:
+      labels:
+        app: eaasapi
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - name: https
+          containerPort: 443
+        - name: http
+          containerPort: 80
+        volumeMounts:
+        - mountPath: /var/log/nginx
+          name: nginxmount
+        - mountPath: /var/www/html/USERACCOUNT/download
+          name: eapersist
+        - mountPath: /var/tmp
+          name: vartmp
+      - name: eaasapi
+        image: localhost:5001/eaasapi/eaasapi
+        ports:
+        - name: ssh
+          containerPort: 22
+        volumeMounts:
+        - mountPath: /var/log/nginx
+          name: nginxmount
+        - mountPath: /var/www/html/USERACCOUNT
+          name: eapersist
+        - mountPath: /var/tmp
+          name: vartmp
+        - mountPath: /root/.gnupg
+          name: gpgmount
+        - mountPath: /usr/local/bin/
+          name: binmount
+
+      volumes:
+       - name: eapersist
+         hostPath:
+           path: /var/www/html/USERACCOUNT
+           type: Directory
+       - name: vartmp
+         hostPath:
+           path: /srv/persist/var/tmp
+           type: Directory    
+       - name: nginxmount
+         hostPath:
+           path: /srv/persist/nginlog
+           type: Directory    
+       - name: gpgmount
+         hostPath:
+           path: /srv/persist/gpg
+           type: Directory    
+       - name: binmount
+         hostPath:
+           path: /srv/persist/bin
+           type: Directory    
+
