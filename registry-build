@@ -20,13 +20,17 @@ docker push localhost:5001/eaasapi/eanginx
 docker tag eaasapi localhost:5001/eaasapi/eaasapi
 docker push localhost:5001/eaasapi/eaasapi
 microk8s.kubectl create -f eaas-deployment-d.yml || echo "exit code $? on create of eaas deployment d"
-
+microk8s.kubectl expose deployment/eaasapi-d
 CLUSTER1=$(microk8s.kubectl get services | grep eaasapi-d | awk '{print $3}')
 sed -i "s/ACCOUNT/$CLUSTER1/g" eaproxy/haproxy.cfg
 sed -i "s/CLUSTERIP1/$CLUSTER1/g" eaproxy/haproxy.cfg
 # Add in more seds here to expand the pool beyond the single local instance
 cd eaproxy
 docker build -t eaproxy .
+cd ..
 docker tag eaproxy localhost:5001/eaasapi/eaproxy
 docker push localhost:/5001/eaasapi/eaproxy
 microk8s.kubectl create -f eaproxy-deployment-d.yml || echo "exit code $? on create of eaproxy deployment d"
+microk8s.kubectl expose deployment/eaproxy-d
+
+microk8s.kubectl create -f eaas-service.yml || echo "exit code $? on create of eaas service"
