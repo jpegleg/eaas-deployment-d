@@ -45,7 +45,7 @@ spec:
       volumes:
        - name: eapersist
          hostPath:
-           path: /var/www/html/ACCOUNT/transfer
+           path: /srv/persist/ACCOUNT/www
            type: Directory
        - name: vartmp
          hostPath:
