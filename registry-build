@@ -1,0 +1,13 @@
+git clone https://github.com/jpegleg/eaas-deployment-d
+cd eaasapi-d/eanginx
+docker build -t eanginx .
+cd ../eaasapi
+docker build -t eaasapi .
+cd ..
+
+docker run -d -p 5001:5000 --name earegistry -v /srv/registry:/var/lib/registry registry:2 
+docker tag eanginx localhost:5001/eaasapi/eanginx
+docker push localhost:5001/eaasapi/eanginx
+docker tag eaasapi localhost:5001/eaasapi/eaasapi
+docker push localhost:5001/eaasapi/eaasapi
+microk8s.kubectl create -f eaas-deployment-d.yml || echo "exit code $? on create of deployment d"
