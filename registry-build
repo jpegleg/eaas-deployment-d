@@ -1,5 +1,5 @@
 echo "Building containers..."
-
+cd eanginx
 docker build -t eanginx .
 cd ../eaasapi
 docker build -t eaasapi .
