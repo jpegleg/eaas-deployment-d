@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+chmod +x registry-build
+chmod +x automatic-updates
+
+apt-get install -y aptitude apt-transport-https
+apt-get install -y aptitude
+aptitude install -y ufw
+
+ufw allow 30080
+ufw enable
+ufw reload
+
+./registry-build
+
+cp automatic-updates /etc/cron.weekly/
