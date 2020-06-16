@@ -45,21 +45,21 @@ spec:
       volumes:
        - name: eapersist
          hostPath:
-           path: /var/www/html/ACCOUNT
+           path: /var/www/html/ACCOUNT/transfer
            type: Directory
        - name: vartmp
          hostPath:
-           path: /srv/persist/var/tmp
+           path: /srv/persist/ACCOUNT/var/tmp
            type: Directory    
        - name: nginxmount
          hostPath:
-           path: /srv/persist/log
+           path: /srv/persist/ACCOUNT/log
            type: Directory    
        - name: gpgmount
          hostPath:
-           path: /srv/persist/gpg
+           path: /srv/persist/ACCOUNT/gpg
            type: Directory    
        - name: binmount
          hostPath:
-           path: /srv/persist/bin
+           path: /srv/persist/ACCOUNT/bin
            type: Directory    
