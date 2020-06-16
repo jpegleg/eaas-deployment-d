@@ -1,11 +1,20 @@
-git clone https://github.com/jpegleg/eaas-deployment-d
-cd eaasapi-d/eanginx
+echo "Building containers..."
+
 docker build -t eanginx .
 cd ../eaasapi
 docker build -t eaasapi .
 cd ..
 
-docker run -d -p 5001:5000 --name earegistry -v /srv/registry:/var/lib/registry registry:2 
+echo "Checking for registry."
+
+reglistener=$(docker container ls | awk '{print $2}' | grep registry:2 | wc -l)
+if [ $reglistener = 1 ]; then
+  echo "local docker registry found..."
+else
+  echo "No local registry found, starting up local registry."
+  docker run -d -p 5001:5000 --name earegistry registry:2 
+fi
+
 docker tag eanginx localhost:5001/eaasapi/eanginx
 docker push localhost:5001/eaasapi/eanginx
 docker tag eaasapi localhost:5001/eaasapi/eaasapi
