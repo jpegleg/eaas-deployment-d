@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eatransfer-d
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eatransfer-d
+  template:
+    metadata:
+      labels:
+        app: eatransfer-d
+    spec:
+      containers:
+      - name: eatransfer
+        image: localhost:5001/eaasapi/eatransfer
+        ports:
+        - name: ssh
+          containerPort: 22
+        volumeMounts:
+        - mountPath: /home/ACCOUNT
+          name: accounthome
+        - mountPath: /var/www/html/ACCOUNT
+          name: eapersist
+        - mountPath: /etc/keys/ssh_host_ed25519_key
+          name: eahostkey
+        - mountPath: /etc/keys/ssh_host_ed25519_key.pub
+          name: eahostkeypub
+        - mountPath: /etc/sftp/users.conf
+          name: eausers
+
+      volumes:
+       - name: eapersist
+         hostPath:
+           path: /srv/persist/ACCOUNT/www
+           type: Directory
+       - name: eahostkey
+         hostPath:
+           path: /srv/persist/ACCOUNT/sftp/etc/ssh_host_ed25519_key
+           type: File
+       - name: eahostkeypub
+         hostPath:
+           path: /srv/persist/ACCOUNT/sftp/etc/ssh_host_ed25519_key.pub
+           type: File
+       - name: eausers
+         hostPath:
+           path: /srv/persist/ACCOUNT/sftp/etc/users.conf
+           type: File
+       - name: 
+         hostPath:
+           path: /srv/persist/ACCOUNT/sftp/etc/ssh_host_ed25519_key.pub
+           type: File           
+       - name: accounthome
+         hostPath:
+           path: /srv/persist/ACCOUNT/gpg
+           type: Directory    
+       - name: binmount
+         hostPath:
+           path: /srv/persist/ACCOUNT/bin
+           type: Directory    
