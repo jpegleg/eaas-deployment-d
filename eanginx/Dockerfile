@@ -16,6 +16,9 @@ RUN mkdir -p /var/www/html/css/images /etc/letsencrypt/live/eanginx /var/www/htm
 # COPY privkey.pem /etc/letsencrypt/live/eanginx/
 # COPY ssl-dhparams.pem /etc/letsencrypt/
 
+# Template/contact info as default page:
+COPY index.html /usr/share/nginx/html/index.html
+
 EXPOSE 443 80
 
 CMD ["nginx", "-g", "daemon off;"]
