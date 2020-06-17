@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if pgrep -x "registry" >/dev/null
+then
+  exit 0
+else
+  cd ~/eaas-deployment-d/
+  ./rebuild-registry
+fi
