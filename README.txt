@@ -73,3 +73,21 @@ Don't hestitate to reach out.
 carefuldata@protonmail.com
 
 https://carefuldata.com/
+
+
+
+...
+
+
+Design choices
+
+- Ubuntu (20) with snap and microk8s for easy of deployment and kernel version, inline with upstream development.
+- UFW to firewall away almost everything by default, including the kubernetes api etc, leaving only the container services for HAProxy and SFTP exposed via NodePorts.
+- The local docker registry is kept out of micok8s and is used purely as a build tool.
+- An instance of deployment d takes ~800 MB of RAM and can scale horizontally very well.
+- HAProxy as the first layer to the API for world class performance and security.
+- NGINX as the web server for configuration flexibility and resilience.
+- Simple Event Correlator for event management because of light footprint, rate/suppression controls, ease for onboarding and quick changes, allows arbitrary backends to work together in harmony, can be used for security alerting etc, reliability and performance. Much like an application firewall in this usage.
+- Local persistant volumes can be replicated, network mounted, or switched out with other volume services.
+- HAProxy service is full ephemeral with no persistance while the others are mounted for ease of management.
+
