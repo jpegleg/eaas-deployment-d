@@ -1,9 +1,10 @@
 # eaas-deployment-d
 
-Built for Ubuntu 20 microk8s + docker deployment templating.
+Built for Ubuntu (20) microk8s + docker deployment templating.
 
 Clone the git repo and then build out the files/changes you need.
-If you actually use this on your own, I expect that you might:
+
+If you use this on your own, I expect that you might:
 - update eanginx to include an actual NGINX configuration and web content
 - replace all instances of ACCOUNT with the user or customer id for the deployment
 - update /srv/persist/ACCOUNT/ file structures to contain the backend app and other files required
