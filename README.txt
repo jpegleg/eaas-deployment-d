@@ -90,4 +90,21 @@ Design choices
 - Simple Event Correlator for event management because of light footprint, rate/suppression controls, ease for onboarding and quick changes, allows arbitrary backends to work together in harmony, can be used for security alerting etc, reliability and performance. Much like an application firewall in this usage.
 - Local persistant volumes can be replicated, network mounted, or switched out with other volume services.
 - HAProxy service is full ephemeral with no persistance while the others are mounted for ease of management.
+- API requests are going to result in HTTP 404s from NGINX by default, just about everything will 404 unless you put something there, but that doesn't stop the backend from running successfully as long as the URI context in the prod.cfg matches. You can of course make the pattern matching include requiring a 200 OK if you want. But there is obfuscation power in just letting everything 404 if you can. Only the user with an sftp account etc will know if the request was successful.
+
+I like to update the matching to require a POST and somewhat-secret URI context, along with other layers authentication/identity.
+And then allow the URI context data to be read by the backend if parsed as a valid event:
+
+curl -X POST https://my-eaas-api-service.com/accountperson/api/v2/fullreg1/ec/host/cf83e1357eefb8bdf1542850d66d8007d620e405
+
+In the example above, that last cf83e1357eefb8bdf1542850d66d8007d620e405 part is encoded data that is submitted into the backend.
+The user or system who does the curl there will not see any results per se, then systems/they can pull the results via sftp as required. This creates a separation of roles in the API usage, allowing applications and automation to immediately move on from the API call without having to wait around for a response or job completion. Then the data in cf83e1357eefb8bdf1542850d66d8007d620e405 is perhaps further transformed (encrypted/formated) and stored on the SFTP site unless people or automation collect it and remove it, or whatever you want your backend to do. If you would like a backend for you or your business but don't know how to go about it, please contact carefuldata@protonmail.com
+
+# connect into an interactive sftp session:
+sftp -oPort=30022 transfer@my-eaas-api-service.com:/portal/transfer/
+
+# or pull a file you know about
+sftp -oPort=30022 transfer@my-eaas-api-service.com:/portal/transfer/transfer.static.bin .
+
+Ideally set up with ssh keys for client authentication when applicable.
 
