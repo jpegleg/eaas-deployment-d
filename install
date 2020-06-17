@@ -7,7 +7,8 @@ apt-get install -y aptitude apt-transport-https
 apt-get install -y aptitude
 aptitude install -y ufw
 
-ufw allow 30080
+ufw allow 30443
+ufw allow 30022
 ufw enable
 ufw reload
 
