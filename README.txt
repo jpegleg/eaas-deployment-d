@@ -1,12 +1,16 @@
 # eaas-deployment-d
 
+Deployment "d" is one of many EaaS deployments I do. I also have deployments on bare metal,
+deployments without containers, deployments at larger scales. But this one is very repeatable,
+and a nice place to start for the paranoid or security focused who do want to use kubernetes.
+
 Built for Ubuntu (20) microk8s + docker deployment templating.
 
 The microservices stack in this template is:
- alphine SFTP site
+ alpine SFTP site
  HAProxy TLS gateway
  NGINX frontend/web
- Simple Event Correlator frontend/event controller (for an API backend etc, not included here)
+ Simple Event Correlator frontend/event controller (for an API backend etc, backend not included here)
 
 ...
 
@@ -19,7 +23,7 @@ If you use this on your own, I expect that you might:
 - edit the eaasapi/prod.cfg to include URI context matching and events that trigger apps/backends
 - update the sftp user "transfer" name and password in eatransfer/users.conf
 
-Example tree of the persistent volumes in /srv/persist/
+Tree of example of an in use persistent volumes in /srv/persist/
 ACCOUNT
 ├── bin
 │   └── ACCOUNT-api # put your apps/backends here
@@ -56,7 +60,7 @@ Note this install method removes SSH access to the (Ubuntu) host.
 The point of this type of deployment is to create "an appliance" that will
 run on its own for the most part and can work on small scale including IoT.
 It takes less than 2 GB of RAM to run a set of these default microservices.
-
+Mine are currently using about 800 MB running the template stack.
 
 Edit the install script to include this if you want to be able to ssh to the underlying host etc:
 
@@ -83,13 +87,15 @@ Design choices
 
 - Ubuntu (20) with snap and microk8s for easy of deployment and kernel version, inline with upstream development.
 - UFW to firewall away almost everything by default, including the kubernetes api etc, leaving only the container services for HAProxy and SFTP exposed via NodePorts.
-- The local docker registry is kept out of micok8s and is used purely as a build tool.
+- The local docker registry is kept out of micok8s and is used purely as a local build tool.
 - An instance of deployment d takes ~800 MB of RAM and can scale horizontally very well.
 - HAProxy as the first layer to the API for world class performance and security.
 - NGINX as the web server for configuration flexibility and resilience.
-- Simple Event Correlator for event management because of light footprint, rate/suppression controls, ease for onboarding and quick changes, allows arbitrary backends to work together in harmony, can be used for security alerting etc, reliability and performance. Much like an application firewall in this usage.
+- Simple Event Correlator for event management because of light footprint, rate/suppression controls, ease for onboarding and quick changes, allows arbitrary backends to work together in harmony, can be used for security alerting etc, reliability and performance. Application filtering and control services read the web data and trigger backend jobs based on patterns and events.
 - Local persistant volumes can be replicated, network mounted, or switched out with other volume services.
-- HAProxy service is full ephemeral with no persistance while the others are mounted for ease of management.
+- Easy integrates with other kubernetes ecosystems.
+- HAProxy service is full ephemeral with no persistance while the others are mounted for ease of data management.
+- Support for multiple kubernetes servers across the same hardware or around the world, (rsync) the /srv/persist data between them, or network mount /srv/persist to all the nodes from a cloud hosting provider storage, or storage array in your office or datacenter so that you have good failovers between nodes.
 - API requests are going to result in HTTP 404s from NGINX by default, just about everything will 404 unless you put something there, but that doesn't stop the backend from running successfully as long as the URI context in the prod.cfg matches. You can of course make the pattern matching include requiring a 200 OK if you want. But there is obfuscation power in just letting everything 404 if you can. Only the user with an sftp account etc will know if the request was successful.
 
 I like to update the matching to require a POST and somewhat-secret URI context, along with other layers authentication/identity.
