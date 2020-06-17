@@ -47,10 +47,6 @@ spec:
          hostPath:
            path: /srv/persist/ACCOUNT/sftp/etc/users.conf
            type: File
-       - name: 
-         hostPath:
-           path: /srv/persist/ACCOUNT/sftp/etc/ssh_host_ed25519_key.pub
-           type: File           
        - name: accounthome
          hostPath:
            path: /srv/persist/ACCOUNT/gpg
