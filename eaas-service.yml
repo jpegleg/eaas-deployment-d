@@ -8,5 +8,5 @@ spec:
   ports:
     - port: 666
       targetPort: 666
-      nodePort: 30080
+      nodePort: 30443
   type: LoadBalancer
