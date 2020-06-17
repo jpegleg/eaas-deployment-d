@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: transfer-service
+spec:
+  selector:
+    app: eatransfer-d
+  ports:
+    - port: 22
+      targetPort: 22
+      nodePort: 30022
+  type: LoadBalancer
