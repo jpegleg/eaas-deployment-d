@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
+mkdir -p /srv/persist/ACCOUNT/gpg/
+mkdir -p /srv/persist/ACCOUNT/www/transfer/
+mkdir -p /srv/persist/ACCOUNT/var/tmp/
+mkdir -p /srv/persist/ACCOUNT/log/
+mkdir -p /srv/persist/ACCOUNT/bin/
 
-chmod +x registry-build
-chmod +x automatic-updates
+chmod +x ACCOUNT-api || echo "WARN: no default backend ACCOUNT-api found found in $(pwd)"
+cp ACCOUNT-api /srv/persist/ACCOUNT/bin/ || echo "WARN: the default backend was not copied to /srv/persist/ACCOUNT/bin/"
 
-apt-get install -y aptitude apt-transport-https
-apt-get install -y aptitude
-aptitude install -y ufw
+apt-get install -y apt-transport-https
+apt-get install -y aptitude 
+aptitude install -y ufw 
 
 ufw allow 30443
 ufw allow 30022
 ufw enable
 ufw reload
 
+chmod +x registry-build
+chmod +x automatic-updates
 ./registry-build
-
 cp automatic-updates /etc/cron.weekly/
