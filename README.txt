@@ -2,6 +2,14 @@
 
 Built for Ubuntu (20) microk8s + docker deployment templating.
 
+The microservices stack in this template is:
+ alphine SFTP site
+ HAProxy TLS gateway
+ NGINX frontend/web
+ Simple Event Correlator frontend/event controller (for an API backend etc, not included here)
+
+...
+
 Clone the git repo and then build out the files/changes you need.
 
 If you use this on your own, I expect that you might:
@@ -9,7 +17,9 @@ If you use this on your own, I expect that you might:
 - replace all instances of ACCOUNT with the user or customer id for the deployment
 - update /srv/persist/ACCOUNT/ file structures to contain the backend app and other files required
 - edit the eaasapi/prod.cfg to include URI context matching and events that trigger apps/backends
+- update the sftp user "transfer" name and password in eatransfer/users.conf
 
+Example tree of the persistent volumes in /srv/persist/
 ACCOUNT
 ├── bin
 │   └── ACCOUNT-api # put your apps/backends here
@@ -42,10 +52,11 @@ Get yourself a Ubuntu 20 install with microk8s and docker in the PATH
 chmod +x install
 ./install
 
-Note this install method removes SSH access to the Ubuntu host. 
+Note this install method removes SSH access to the (Ubuntu) host. 
 The point of this type of deployment is to create "an appliance" that will
 run on its own for the most part and can work on small scale including IoT.
 It takes less than 2 GB of RAM to run a set of these default microservices.
+
 
 Edit the install script to include this if you want to be able to ssh to the underlying host etc:
 
