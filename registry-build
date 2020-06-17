@@ -12,7 +12,7 @@ if [ $reglistener = 1 ]; then
   echo "local docker registry found..."
 else
   echo "No local registry found, starting up local registry."
-  docker run -d -p 5001:5000 --name earegistry registry:2 
+  docker run -d --restart unless-stopped -p 5001:5000 registry:2
 fi
 
 docker tag eanginx localhost:5001/eaasapi/eanginx
