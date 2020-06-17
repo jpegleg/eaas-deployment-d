@@ -21,5 +21,10 @@ ufw reload
 
 chmod +x registry-build
 chmod +x automatic-updates
+chmod +x registry-enforce
 ./registry-build
 cp automatic-updates /etc/cron.weekly/
+cp registry-enforce /usr/local/sbin/
+echo "*/1 * * * * /usr/local/sbin/registry-enforce" > /etc/crontab
+mkdir ~/eaas-deployment-d/ 2>/dev/null
+cp -r ./* ~/eaas-deployment-d/ 2>/dev/null
