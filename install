@@ -6,6 +6,8 @@ mkdir -p /srv/persist/ACCOUNT/log/
 mkdir -p /srv/persist/ACCOUNT/bin/
 echo "WARN: opening up /srv/persist/ACCOUNT/www/transfer to 777 permissions for sftp users!"
 chmod 777 /srv/persist/ACCOUNT/www/transfer 
+echo "WARN: opening up /srv/persist/ACCOUNT/var/tmp to 777 permissions for backend application users!"
+chmod 777 /srv/persist/ACCOUNT/var/tmp
 
 chmod +x ACCOUNT-api || echo "WARN: no default backend ACCOUNT-api found found in $(pwd)"
 cp ACCOUNT-api /srv/persist/ACCOUNT/bin/ || echo "WARN: the default backend was not copied to /srv/persist/ACCOUNT/bin/"
