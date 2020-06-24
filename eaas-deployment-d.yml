@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: eanginx
-        image: localhost:5001/eaasapi/eanginx
+        image: localhost:5001/eaasapi-d/eanginx
         ports:
         - name: https
           containerPort: 443
@@ -29,7 +29,7 @@ spec:
           name: vartmp
 
       - name: eaasapi
-        image: localhost:5001/eaasapi/eaasapi
+        image: localhost:5001/eaasapi-d/eaasapi
         volumeMounts:
         - mountPath: /var/log/nginx
           name: nginxmount
