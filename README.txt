@@ -18,6 +18,7 @@ Clone the git repo and then build out the files/changes you need.
 
 If you use this on your own, I expect that you might:
 - update eanginx to include an actual NGINX configuration and web content
+- replace the keycert.pem file in the HAProxy container with your key and cert pair
 - replace all instances of ACCOUNT with the user or customer id for the deployment
 - update /srv/persist/ACCOUNT/ file structures to contain the backend app and other files required
 - edit the eaasapi/prod.cfg to include URI context matching and events that trigger apps/backends
