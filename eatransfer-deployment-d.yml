@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: eatransfer
-        image: localhost:5001/eaasapi/eatransfer
+        image: localhost:5001/eaasapi-d/eatransfer
         ports:
         - name: ssh
           containerPort: 22
