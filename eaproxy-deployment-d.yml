@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: eaproxy
-        image: localhost:5001/eaasapi/eaproxy
+        image: localhost:5001/eaasapi-d/eaproxy
         ports:
         - name: haproxybeast
           containerPort: 666
