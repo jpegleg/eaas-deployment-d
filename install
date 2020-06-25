@@ -27,6 +27,16 @@ chmod +x registry-enforce
 ./registry-build
 cp automatic-updates /etc/cron.weekly/
 cp registry-enforce /usr/local/sbin/
-echo "*/1 * * * * /usr/local/sbin/registry-enforce" > /etc/crontab
+
+croncheck=$(grep registry-enforce /etc/crontab | wc -l)
+
+if [ "$croncheck" = 1 ]; then
+  echo "WARN: a crontab of registry-enforce was found, not adding another registry-enforce. You may want to ensure that the existing registry enforce enforcing everything!"
+elif (( "$crontabckeck" >= "2" )); then
+  echo "ERROR: too many cron jobs named registry-enforce were found! Please review /etc/crontab for registry-enforce jobs!"
+else
+  echo "*/1 * * * * /usr/local/sbin/registry-enforce" > /etc/crontab
+fi
+
 mkdir ~/eaas-deployment-d/ 2>/dev/null
 cp -r ./* ~/eaas-deployment-d/ 2>/dev/null
