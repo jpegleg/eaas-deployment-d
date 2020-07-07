@@ -1,5 +1,5 @@
 FROM debian
-LABEL maintainer="info@carefuldata.com"
+LABEL maintainer="carefuldata@protonmail.com
 LABEL version="1.0"
 LABEL description="EaaS API and Transfer Portal"
 
