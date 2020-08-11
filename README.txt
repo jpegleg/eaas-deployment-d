@@ -3,7 +3,7 @@ UPDATE 8/11/2020
 The microk8s in snaps currently fails to interact with the local docker registry,
 resulting in fail to pull image errors. This issue is being researched, but may 
 not be fixed in deployment-d, see the current tinkering for "appliance" kubernetes
-in eaas-deployment-e
+in eaas-deployment-e. Deployment d will likely be rewritten entirely and development not continued.
 
 
 # eaas-deployment-d
