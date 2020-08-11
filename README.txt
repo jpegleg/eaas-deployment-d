@@ -1,7 +1,15 @@
+UPDATE 8/11/2020
+
+The microk8s in snaps currently fails to interact with the local docker registry,
+resulting in fail to pull image errors. This issue is being researched, but may 
+not be fixed in deployment-d, see the current tinkering for "appliance" kubernetes
+in eaas-deployment-e
+
+
 # eaas-deployment-d
 
-Deployment "d" is one of many EaaS deployments I do. I also have deployments on bare metal,
-deployments without containers, deployments at larger scales. But this one is very repeatable,
+Deployment "d" is one of many EaaS deployments I used to do. I also have deployments on bare metal,
+deployments without containers, deployments at larger scales. But this one was very repeatable,
 and a nice place to start for the paranoid or security focused who do want to use kubernetes.
 
 Built for Ubuntu (20) microk8s + docker deployment templating.
@@ -17,6 +25,7 @@ The microservices stack in this template is:
 Clone the git repo and then build out the files/changes you need.
 
 If you use this on your own, I expect that you might:
+- swap out local repository for a docker registry, update registry commands in scripts
 - update eanginx to include an actual NGINX configuration and web content
 - replace the keycert.pem file in the HAProxy container with your key and cert pair
 - replace all instances of ACCOUNT with the user or customer id for the deployment
