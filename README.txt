@@ -5,6 +5,8 @@ resulting in fail to pull image errors because TLS is now required. When this wa
 used, TLS was not required for that interaction. You can replace instances of localhost
 in the files with the private TLS registry if you use this template currently.
 
+See https://github.com/jpegleg/jpegleg-registry for building a registry jpegleg style.
+
 
 # eaas-deployment-d
 
