@@ -2,7 +2,8 @@ UPDATE 8/11/2020
 
 The microk8s in snaps currently fails to interact with the local docker registry,
 resulting in fail to pull image errors because TLS is now required. When this was
-used, TLS was not required for that interaction.
+used, TLS was not required for that interaction. You can replace instances of localhost
+in the files with the private TLS registry if you use this template currently.
 
 
 # eaas-deployment-d
@@ -96,7 +97,7 @@ Design choices
 
 - Ubuntu (20) with snap and microk8s for easy of deployment and kernel version, inline with upstream development.
 - UFW to firewall away almost everything by default, including the kubernetes api etc, leaving only the container services for HAProxy and SFTP exposed via NodePorts.
-- The local docker registry is kept out of micok8s and is used purely as a local build tool.
+- The local docker registry is kept out of microk8s and is used purely as a local build tool, replace the localhost items with private registry as desired.
 - An instance of deployment d takes ~800 MB of RAM and can scale horizontally very well.
 - HAProxy as the first layer to the API for world class performance and security.
 - NGINX as the web server for configuration flexibility and resilience.
