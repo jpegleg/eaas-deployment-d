@@ -1,7 +1,7 @@
 UPDATE 8/11/2020
 
 The microk8s in snaps currently fails to interact with the local docker registry,
-resulting in fail to pull image errors because TLS is now required. When this was
+resulting in fail to pull image errors because TLS is required. When this was
 used, TLS was not required for that interaction. You can replace instances of localhost
 in the files with the private TLS registry if you use this template currently.
 
@@ -10,11 +10,11 @@ See https://github.com/jpegleg/jpegleg-registry for building a registry jpegleg 
 
 # eaas-deployment-d
 
-Deployment "d" is one of many EaaS deployments I used to do. I also have deployments on bare metal,
-deployments without containers, deployments at larger scales. But this one was very repeatable,
+Deployment "d" is one of many EaaS deployment templates. I also have deployments on bare metal,
+deployments without containers, deployments at larger scales. But this one is very repeatable,
 and a nice place to start for the paranoid or security focused who do want to use kubernetes.
 
-Built for Ubuntu (20) microk8s + docker deployment templating.
+Built for Ubuntu (18 or 20) microk8s + docker deployment templating. Should also work on Debian or others with apt.
 
 The microservices stack in this template is:
  alpine SFTP site
@@ -64,7 +64,7 @@ ACCOUNT
 
 
 Build steps:
-Get yourself a Ubuntu 20 install with microk8s and docker in the PATH
+Get yourself a Ubuntu 18 or 20, install with microk8s and docker in the PATH
 chmod +x install
 ./install
 
@@ -97,7 +97,7 @@ https://carefuldata.com/
 
 Design choices
 
-- Ubuntu (20) with snap and microk8s for easy of deployment and kernel version, inline with upstream development.
+- Ubuntu (18/20) with snap and microk8s for easy of deployment and kernel version, inline with upstream development.
 - UFW to firewall away almost everything by default, including the kubernetes api etc, leaving only the container services for HAProxy and SFTP exposed via NodePorts.
 - The local docker registry is kept out of microk8s and is used purely as a local build tool, replace the localhost items with private registry as desired.
 - An instance of deployment d takes ~800 MB of RAM and can scale horizontally very well.
