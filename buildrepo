@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+buildlocal () {
+  cd $1
+  if [ "$1" = eacgi ]; then
+    chmod +x secp384r1.cgi
+  fi
+  docker build -t PRIVATEREGISTRY/eaas-api-d/"$1" .
+  docker push PRIVATEREGISTRY/eaas-api-d/"$1"
+  cd ..
+}
+
+
+chmod +x ACCOUNT-api || echo "WARN: no default backend ACCOUNT-api found found in $(pwd)"
+cp ACCOUNT-api /srv/persist/ACCOUNT/bin/ || echo "WARN: the default backend was not copied to /srv/persist/ACCOUNT/bin/"
+
+echo "Checking for registry."
+
+reglistener=$(docker container ls | awk '{print $2}' | grep registry | wc -l)
+if [ $reglistener = 1 ]; then
+  echo "local docker registry found..."
+else
+  echo "No local registry found, starting up local registry."
+  docker run -d --restart unless-stopped  -p 127.0.0.1:5000:5000 registry
+fi
+
+
+buildlocal eaasapi
+buildlocal eanginx
+buildlocal eaproxy
+buildlocal eatransfer
+
+
+echo
+echo -e "\e[32mRepo build complete!\e[0m"
+echo
