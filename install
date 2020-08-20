@@ -35,7 +35,7 @@ if [ "$croncheck" = 1 ]; then
 elif (( "$crontabckeck" >= "2" )); then
   echo "ERROR: too many cron jobs named registry-enforce were found! Please review /etc/crontab for registry-enforce jobs!"
 else
-  echo "*/1 * * * * /usr/local/sbin/registry-enforce" >> /etc/crontab
+  echo "*/1 * * * * /usr/local/sbin/registry-enforce >/dev/null 2>&1" >> /etc/crontab
   echo >> /etc/crontab
 fi
 
