@@ -1,9 +1,10 @@
-UPDATE 8/11/2020
+UPDATE 9/22/2020
 
 The microk8s in snaps currently fails to interact with the local docker registry,
-resulting in fail to pull image errors because TLS is required. When this was
-used, TLS was not required for that interaction. You can replace instances of localhost
-in the files with the private TLS registry if you use this template currently.
+resulting in fail to pull image errors because TLS not allowing local/ doesn't allow localhost: as the repo location specifier.
+When this was used, TLS was not required for that interaction, localhost was permitted for registry pull in microk8s, maybe what is happening
+with it not working now was to close some CVE, I don't know yet. But this is what to do to fix that aspect in the template:
+You can replace instances of localhost in the files with the private TLS registry if you use this template currently.
 
 See https://github.com/jpegleg/jpegleg-registry for building a registry jpegleg style, which will work with this template.
 
@@ -49,7 +50,7 @@ ACCOUNT
 │        ├── S.gpg-agent.extra
 │        ├── S.gpg-agent.ssh
 │        └── trustdb.gpg
-├── log # the eanginx (NGINX) logs
+├── log # the eanginx (NGINX) logs ( see https://github.com/jpegleg/badger-chainz regarding preventing these logs from being written to disk aka use a pipe )
 │   ├── access.log
 │   └── error.log
 ├── var # free for backend/app workspace 
