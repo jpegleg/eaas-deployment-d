@@ -79,6 +79,9 @@ Edit the install script to include this if you want to be able to ssh to the und
 ufw allow 22/tcp
 ufw reload
 
+The default rules as is in the template are rather restrictive, and block of many kubernetes and docker ports.
+The intent is to have a forced isolation cluster by default, and manually add additional kubernetes service ports.
+
 Another note, if you end up manually creating deployments for some reason:
 The eaproxy-deployment-d relies on some edits to happen in the eaproxy docker build
 to populate the proxy backend targets, in this case the NGINX ClusterIP.
