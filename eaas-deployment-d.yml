@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: eanginx
-        image: localhost:5001/eaasapi-d/eanginx
+        image: "127.0.0.1:5000/eanginx"
         ports:
         - name: https
           containerPort: 443
@@ -29,7 +29,7 @@ spec:
           name: vartmp
 
       - name: eaasapi
-        image: localhost:5001/eaasapi-d/eaasapi
+        image: "127.0.0.1:5000/eaasapi"
         volumeMounts:
         - mountPath: /var/log/nginx
           name: nginxmount
@@ -50,16 +50,17 @@ spec:
        - name: vartmp
          hostPath:
            path: /srv/persist/ACCOUNT/var/tmp
-           type: Directory    
+           type: Directory
        - name: nginxmount
          hostPath:
            path: /srv/persist/ACCOUNT/log
-           type: Directory    
+           type: Directory
        - name: gpgmount
          hostPath:
            path: /srv/persist/ACCOUNT/gpg
-           type: Directory    
+           type: Directory
        - name: binmount
          hostPath:
            path: /srv/persist/ACCOUNT/bin
-           type: Directory    
+           type: Directory
+
