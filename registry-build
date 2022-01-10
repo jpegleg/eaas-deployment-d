@@ -12,13 +12,13 @@ if [ $reglistener = 1 ]; then
   echo "local docker registry found..."
 else
   echo "No local registry found, starting up local registry."
-  docker run -d --restart unless-stopped -p 5001:5000 registry:2
+  docker run -d -it --restart unless-stopped -p 5000:5000 registry
 fi
 
-docker tag eanginx localhost:5001/eaasapi-d/eanginx
-docker push localhost:5001/eaasapi-d/eanginx
-docker tag eaasapi localhost:5001/eaasapi-d/eaasapi
-docker push localhost:5001/eaasapi-d/eaasapi
+docker tag eanginx localhost:5000/eanginx
+docker push localhost:5000/eanginx
+docker tag eaasapi localhost:5000/eaasapi
+docker push localhost:5000/eaasapi
 microk8s.kubectl create -f eaas-deployment-d.yml || echo "exit code $? on create of eaas deployment d"
 microk8s.kubectl expose deployment/eaasapi-d
 CLUSTER1=$(microk8s.kubectl get services | grep eaasapi-d | awk '{print $3}')
@@ -28,8 +28,8 @@ sed -i "s/CLUSTERIP1/$CLUSTER1/g" eaproxy/haproxy.cfg
 cd eaproxy
 docker build -t eaproxy .
 cd ..
-docker tag eaproxy localhost:5001/eaasapi-d/eaproxy
-docker push localhost:5001/eaasapi-d/eaproxy
+docker tag eaproxy localhost:5000/eaproxy
+docker push localhost:5000/eaproxy
 microk8s.kubectl create -f eaproxy-deployment-d.yml || echo "exit code $? on create of eaproxy deployment d"
 microk8s.kubectl expose deployment/eaproxy-d
 
@@ -39,8 +39,8 @@ echo "building transfer portal"
 cd eatransfer
 docker build -t eatransfer .
 cd ..
-docker tag eatransfer localhost:5001/eaasapi-d/eatransfer
-docker push localhost:5001/eaasapi-d/eatransfer
+docker tag eatransfer localhost:5000/eatransfer
+docker push localhost:5000/eatransfer
 microk8s.kubectl create -f eatransfer-deployment-d.yml || echo "exit code $? on create of transfer portal sftp deployment d"
 
 microk8s.kubectl create -f transfer-service.yml || echo "exit code $? on create of transfer portal sftp deployment d"
