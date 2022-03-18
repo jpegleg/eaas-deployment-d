@@ -15,6 +15,7 @@ spec:
       containers:
       - name: eaproxy
         image: "127.0.0.1:5000/eaproxy"
+        imagePullPolicy: 'Never'
         ports:
         - name: haproxybeast
           containerPort: 666
