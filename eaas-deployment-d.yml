@@ -15,6 +15,7 @@ spec:
       containers:
       - name: eanginx
         image: "127.0.0.1:5000/eanginx"
+        imagePullPolicy: 'Never'
         ports:
         - name: https
           containerPort: 443
@@ -30,6 +31,7 @@ spec:
 
       - name: eaasapi
         image: "127.0.0.1:5000/eaasapi"
+        imagePullPolicy: 'Never'
         volumeMounts:
         - mountPath: /var/log/nginx
           name: nginxmount
