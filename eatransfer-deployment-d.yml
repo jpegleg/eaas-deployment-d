@@ -15,6 +15,7 @@ spec:
       containers:
       - name: eatransfer
         image: "127.0.0.1:5000/eatransfer"
+        imagePullPolicy: 'Never'
         ports:
         - name: ssh
           containerPort: 22
